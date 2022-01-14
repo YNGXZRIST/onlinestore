@@ -1,4 +1,4 @@
-package com.kulaginvasily.onlinestore.dto;
+package com.kulaginvasily.onlinestore.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

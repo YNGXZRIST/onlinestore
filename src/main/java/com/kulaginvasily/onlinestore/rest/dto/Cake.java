@@ -1,4 +1,4 @@
-package com.kulaginvasily.onlinestore.dto;
+package com.kulaginvasily.onlinestore.rest.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,14 +8,15 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 
 @Data
 @Schema(description = "Краткие данные о торте")
 @Validated
 public class Cake {
-    @NotNull
-    @Schema(description = "идентификатор торта", required = true)
+    @Null
+    @Schema(description = "идентификатор торта", required = false)
     @JsonProperty("id")
     private Long id;
 
@@ -43,4 +44,5 @@ public class Cake {
     @Schema(description = "вес торта", required = true)
     @JsonProperty("weight")
     private BigDecimal weight;
+
 }

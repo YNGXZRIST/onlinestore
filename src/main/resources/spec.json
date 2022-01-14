@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/cakes": {
+      "get": {
+        "tags": [
+          "cake-controller"
+        ],
+        "operationId": "cakes",
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cakes"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "cake-controller"
+        ],
+        "operationId": "addCake",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cake"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cake"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cake/{id}": {
+      "get": {
+        "tags": [
+          "cake-controller"
+        ],
+        "operationId": "getCakeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cake"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Cake": {
+        "required": [
+          "calories",
+          "id",
+          "image",
+          "name",
+          "price",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "идентификатор торта",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "Название торта"
+          },
+          "calories": {
+            "type": "number",
+            "description": "число калорий"
+          },
+          "image": {
+            "type": "string",
+            "description": "относительный url картинки торта"
+          },
+          "price": {
+            "type": "number",
+            "description": "цена торта"
+          },
+          "weight": {
+            "type": "number",
+            "description": "вес торта"
+          }
+        },
+        "description": "Краткие данные о торте"
+      },
+      "CakeFullInfo": {
+        "required": [
+          "name",
+          "calories",
+          "id",
+          "image",
+          "name",
+          "price",
+          "weight",
+          "composition"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "идентификатор торта",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "Название торта"
+          },
+          "calories": {
+            "type": "number",
+            "description": "число калорий"
+          },
+          "image": {
+            "type": "string",
+            "description": "относительный url картинки торта"
+          },
+          "price": {
+            "type": "number",
+            "description": "цена торта"
+          },
+          "weight": {
+            "type": "number",
+            "description": "вес торта"
+          },
+          "composition": {
+            "type": "string",
+            "description": "состав торта"
+          }
+        },
+        "description": "Краткие данные о торте"
+      },
+      "Cakes": {
+        "required": [
+          "cake_list"
+        ],
+        "type": "object",
+        "properties": {
+          "cake_list": {
+            "type": "array",
+            "description": "Name",
+            "items": {
+              "$ref": "#/components/schemas/Cake"
+            }
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "name",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+
+          "name": {
+            "type": "string",
+            "description": "Имя пользователя"
+          },
+          "phone": {
+            "type": "string",
+            "description": "телефон пользователя"
+          }
+        },
+        "description": "Данные о пользователе"
+      },
+      "Order": {
+        "required": [
+          "user",
+          "delivery",
+          "purchases",
+          "orderStatus",
+          "payment",
+          "deliveryAddress",
+          "deliveryDate",
+          "deliveryTime"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "delivery": {
+            "type": "string",
+            "description": "способ получения заказа",
+            "enum": [
+              "COURIER",
+              "PICKUP"
+            ]
+          },
+          "deliveryTime":
+          {
+            "type": "string",
+            "description": "Время доставки"
+          },
+          "deliveryAddress": {
+            "type": "string",
+            "description": "Адресс доставки"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "description": "Дата доставки",
+            "format": "date-time"
+          },
+          "payment": {
+            "type": "string",
+            "description": "способ оплаты ",
+            "enum": [
+              "SBERBANK", "QIWI", "MONEY"
+            ]
+          },
+          "orderStatus": {
+            "type": "string",
+            "description": "order status",
+            "enum": [
+              "NEW", "CANCELED", "WAITING_FOR_CONFIRMATION", "CONFIRMED", "PERFORMED", "DELIVERED"
+            ]
+          },
+          "purchases": {
+            "type": "array",
+            "description": "purchases",
+            "items": {
+              "$ref": "#/components/schemas/Purchase"
+            }
+          }
+        },
+        "description": "Информация о доставке"
+      },
+      "Purchase": {
+        "required": [
+          "id",
+          "number"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "информация о заказе"
+      }
+    }
+
+  }
+}
