@@ -3,6 +3,7 @@ package com.kulaginvasily.onlinestore.rest.dto.order;
 import com.kulaginvasily.onlinestore.orders.Delivery;
 import com.kulaginvasily.onlinestore.orders.OrderService;
 import com.kulaginvasily.onlinestore.orders.OrderStatus;
+import com.kulaginvasily.onlinestore.orders.Payment;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class OrderFullInfo {
     private String deliveryAddress;
     private LocalDateTime deliveryDate;
     private Delivery delivery;
-    private OrderService.Payment payment;
+    private Payment payment;
     private OrderStatus orderStatus;
     private Map<Long, Integer> cakes;
     private BigDecimal price;

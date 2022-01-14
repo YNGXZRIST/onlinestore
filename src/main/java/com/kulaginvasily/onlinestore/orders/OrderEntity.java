@@ -18,8 +18,7 @@ import java.util.Objects;
 public class OrderEntity {
     @Setter(AccessLevel.NONE)
     private @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
     @Setter(AccessLevel.PROTECTED)
     @ToString.Exclude
@@ -29,28 +28,26 @@ public class OrderEntity {
 
     @Setter(AccessLevel.PROTECTED)
     @ToString.Exclude
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
+    @OneToMany(mappedBy = "order",fetch = FetchType.LAZY,orphanRemoval = true,cascade = CascadeType.ALL)
     private List<PurchaseEntity> purchases;
 
     @Setter(AccessLevel.PROTECTED)
     private Delivery delivery;
 
     @Setter(AccessLevel.PROTECTED)
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     @Setter(AccessLevel.PROTECTED)
     private Payment payment;
+
 
     @Setter(AccessLevel.PROTECTED)
     private String deliveryAddress;
 
     @Setter(AccessLevel.PROTECTED)
-    private LocalDateTime deliveryDate;
-
-    @Setter(AccessLevel.PROTECTED)
     private LocalDateTime deliveryTime;
-
+    @Setter(AccessLevel.PROTECTED)
+    private LocalDateTime deliveryDate;
 
     @Override
     public boolean equals(Object o) {

@@ -14,10 +14,7 @@ public class Purchase {
     @JsonProperty("id")
     private Long id;
 
-    @NotNull
-    @Schema(description = "cakeId", required = true)
-    @JsonProperty("cakeId")
-    private Long cakeId;
+
 
     @NotNull
     @Schema(description = "number", required = true)

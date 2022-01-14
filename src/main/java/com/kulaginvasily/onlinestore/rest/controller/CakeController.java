@@ -3,6 +3,7 @@ package com.kulaginvasily.onlinestore.rest.controller;
 import com.kulaginvasily.onlinestore.exception.UserExistException;
 import com.kulaginvasily.onlinestore.goods.CakesService;
 import com.kulaginvasily.onlinestore.orders.OrderService;
+import com.kulaginvasily.onlinestore.orders.PurchaseService;
 import com.kulaginvasily.onlinestore.rest.dto.Cake;
 import com.kulaginvasily.onlinestore.rest.dto.CakeFullInfo;
 import com.kulaginvasily.onlinestore.rest.dto.Cakes;
@@ -22,27 +23,29 @@ import java.util.List;
 @RestController
 @Validated
 //@RequestMapping("v1/cakes")
-
 public class CakeController {
     private final UserService userService;
-    private final Cakes cakeList = new Cakes();
-    private static long idCounter = 0;
     private final CakesService cakesService;
+    private final PurchaseService purchaseService;
     private final OrderService orderService;
-
+    private static long idCounter = 0;
+    private final Cakes cakeList = new Cakes();
 
     @Autowired
-    public CakeController(CakesService cakesService) {
+    public CakeController(UserService userService, CakesService cakesService, PurchaseService purchaseService, OrderService orderService) {
+        this.cakesService = cakesService;
+        this.userService = userService;
+        this.purchaseService = purchaseService;
+        this.orderService = orderService;
         List<Cake> tmp = new ArrayList<Cake>();
         cakeList.setCakeList(tmp);
-        this.cakesService = cakesService;
     }
+
 
     @GetMapping(value = "cakes", produces = MediaType.APPLICATION_JSON_VALUE)
     public Cakes cakes() {
         return cakesService.getCakes();
     }
-
     @GetMapping(value = "cake/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public CakeFullInfo getCakeById(@PathVariable Long id) {
         return cakesService.getCake(id);
@@ -61,8 +64,7 @@ public class CakeController {
     public void createOrder(@RequestBody @Valid Order newOrder) {
         try {
             userService.addUser(newOrder.getUser());
-        }
-        catch (UserExistException ignored){
+        } catch (UserExistException ignored) {
         }
         orderService.addOrder(newOrder);
     }

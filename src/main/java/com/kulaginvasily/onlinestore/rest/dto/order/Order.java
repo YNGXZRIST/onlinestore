@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kulaginvasily.onlinestore.orders.Delivery;
 import com.kulaginvasily.onlinestore.orders.OrderService;
 import com.kulaginvasily.onlinestore.orders.OrderStatus;
+import com.kulaginvasily.onlinestore.orders.Payment;
 import com.kulaginvasily.onlinestore.rest.dto.purchase.Purchase;
 import com.kulaginvasily.onlinestore.rest.dto.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,7 +46,7 @@ public class Order {
     @NotNull
     @Schema(description = "способ оплаты", required = true)
     @JsonProperty("payment")
-    private OrderService.Payment payment;
+    private Payment payment;
 
     @NotNull
     @Schema(description = "статус доставки", required = true)
