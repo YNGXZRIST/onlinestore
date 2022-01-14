@@ -1,11 +1,18 @@
 package com.kulaginvasily.onlinestore.orders;
 
+import com.kulaginvasily.onlinestore.exception.OrderNotFoundException;
 import com.kulaginvasily.onlinestore.goods.CakeEntity;
 import com.kulaginvasily.onlinestore.goods.CakeRepository;
+import com.kulaginvasily.onlinestore.rest.dto.order.InOrder;
 import com.kulaginvasily.onlinestore.rest.dto.order.Order;
+import com.kulaginvasily.onlinestore.rest.dto.order.OrderFullInfo;
 import com.kulaginvasily.onlinestore.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +58,48 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.deleteById(id);
     }
 
-    public static interface PurchaseService {
-        void addPurchase(OrderEntity orderEntity, CakeEntity cakeEntity, Integer count);
+    @Override
+    public OrderFullInfo getOrder(Long id) {
+        return orderRepository.findById(id)
+                .map(orderEntity -> {
+                    OrderFullInfo orderFullInfo = new OrderFullInfo();
+                    orderFullInfo.setId(orderEntity.getId());
+                    orderFullInfo.setUsersNumber(orderEntity.getUser().getNumber());
+                    orderFullInfo.setUsersName(orderEntity.getUser().getName());
+                    orderFullInfo.setDelivery(orderEntity.getDelivery());
+                    orderFullInfo.setDeliveryAddress(orderEntity.getDeliveryAddress());
+                    orderFullInfo.setDeliveryDate(orderEntity.getDeliveryDate());
+                    orderFullInfo.setDeliveryTime(orderEntity.getDeliveryTime());
+                    orderFullInfo.setOrderStatus(orderEntity.getStatus());
+                    orderFullInfo.setPayment(orderEntity.getPayment());
+
+                    AtomicReference<BigDecimal> paymentSum = new AtomicReference<>(BigDecimal.ZERO);
+
+                    List<InOrder> pairList = orderEntity.getPurchases().stream().map(purchase -> {
+                        InOrder cakeInOrderInfo = cakeRepository.findById(purchase.getCake().getId()).map(
+                                        cakeEntity -> {
+                                            InOrder cake = new InOrder();
+                                            cake.setName(cakeEntity.getName());
+                                            cake.setPrice(cakeEntity.getPrice());
+                                            return cake;
+                                        }
+                                ).orElse(new InOrder());
+                                cakeInOrderInfo.setNumber(purchase.getNumber());
+                                paymentSum.updateAndGet(v -> v.add(cakeInOrderInfo.getPrice().multiply(BigDecimal.valueOf(purchase.getNumber()))));
+                                return cakeInOrderInfo;
+                            }
+                    ).collect(Collectors.toList());
+
+
+                    orderFullInfo.setCakesList(pairList);
+                    orderFullInfo.setPaymentSum(paymentSum.get());
+                    orderFullInfo.setPayment(orderEntity.getPayment());
+                    return orderFullInfo;
+                })
+                .orElseThrow(() -> new OrderNotFoundException("No such order"));
+
     }
+
+
+
 }

@@ -64,5 +64,11 @@ public class CakesServiceImpl implements CakesService{
         return cakeEntity.getId();
     }
 
+    @Override
+    public void deleteCake(Long id) {
+        CakeEntity cake = cakeRepository.getById(id);
+        cakeRepository.flush();
+    }
+
 
 }

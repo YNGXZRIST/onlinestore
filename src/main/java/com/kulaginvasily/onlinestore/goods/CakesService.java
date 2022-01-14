@@ -11,4 +11,6 @@ public interface CakesService {
      Cakes getCakes();
      CakeFullInfo getCake(Long id);
      Long addCake(CakeFullInfo cakeFullInfo);
+
+    void deleteCake(Long id);
 }
