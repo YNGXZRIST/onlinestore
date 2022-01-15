@@ -1,8 +1,26 @@
 # Use postgres/example user/password credentials
 version: '3.1'
 
+networks:
+  db-network:
+      driver: bridge
+  auth-network:
+      driver: bridge
+
 services:
 
+  shop:
+    image: onlinestore
+    restart: always
+    ports:
+      - 80:2020
+      - 8000:8000
+    networks:
+      - auth-network
+      - db-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_AUTH_URL=http://auth:8080/auth
   db:
     image: postgres
     restart: always
@@ -10,13 +28,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
-    - 5432:5432
+      - 5432:5432
+    networks:
+      - db-network
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8081:8080
+
 
   keycloak:
     image: jboss/keycloak
@@ -25,4 +41,7 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
     ports:
-      - 9090:8080
+      - 8080:8080
+    networks:
+      - auth-network
+

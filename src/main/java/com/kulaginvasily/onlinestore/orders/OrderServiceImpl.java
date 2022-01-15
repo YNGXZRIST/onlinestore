@@ -100,6 +100,19 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-
+    @Override
+    public List<OrderFullInfo> getOrders() {
+        List<OrderEntity> orderEntities = orderRepository.findAll();
+        return orderEntities.stream().map(or -> {
+            OrderFullInfo order = new OrderFullInfo();
+            order.setId(or.getId());
+            order.setUsersNumber(or.getUser().getName());
+            order.setUsersName(or.getUser().getNumber());
+            order.setDelivery(or.getDelivery());
+            order.setPayment(or.getPayment());
+            order.setOrderStatus(or.getStatus());
+            return order;
+        }).collect(Collectors.toList());
+    }
 
 }

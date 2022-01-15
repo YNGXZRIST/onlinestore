@@ -13,17 +13,17 @@
     <input type="submit" value="Edit cake" />
 </form>
 <h1></h1>
-<table class="table table-striped" border="1" cellpadding="0" cellspacing="0" width="650" height="18">
+<table class="table table-striped" bgcolor="#deb887" align="center">
     <tr>
-        <th>Cakes</th>
+        <th>OnlineStore</th>
     </tr>
     <tr th:each="cake : ${cakes}">
         <td>
             <h3 th:text="${cake.name}"></h3>
-            <p th:text="'Calories: '+${cake.calories}+' kcalories'"></p>
-            <p th:text="'Price: '+${cake.price}+' rub'"></p>
+            <p th:text="'калорийность: '+${cake.calories}+' калорий'"></p>
+            <p th:text="'цена: '+${cake.price}+' рублей'"></p>
             <img th:src="'../'+${cake.image}">
-            <p th:text="'Weight:'+${cake.weight}+' g'"></p>
+            <p th:text="'вес:'+${cake.weight}+'грамм'"></p>
             <a th:href="@{/admin/cake/{id}(id=${cake.id})}">
                 <button type="button">More info</button>
             </a>

@@ -6,11 +6,11 @@
 </head>
 <body>
 <h1><p th:text="${cake.name}"></p></h1>
-<p th:text="'Calories: '+${cake.calories}+' calories'"></p>
-<p th:text="'Price: '+${cake.price}+' rub'"></p>
-<p th:text="'Weight:'+${cake.weight}+' g'"></p>
-<p th:text="'Composition: '+${cake.compositions}"></p>
-<p th:text="'Storage conditions: '+${cake.storageConditions}"></p>
+<img th:src="'../'+${cake.image}">
+<p th:text="'Калорийность: '+${cake.calories}+'калорий'"></p>
+<p th:text="'цена: '+${cake.price}+' рублей'"></p>
+<p th:text="'вес:'+${cake.weight}+'грамм'"></p>
+<p th:text="'состав:'+${cake.composition}"></p>
 <h3>Delete Cake</h3>
 <form action="#" th:action="@{/admin/cake/delete/{id}(id=${cake.id})}"  method="get">
     <input type="submit" value="Delete" />

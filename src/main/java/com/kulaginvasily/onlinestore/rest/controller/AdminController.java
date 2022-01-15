@@ -22,21 +22,25 @@ public class AdminController {
     }
 
     @GetMapping(value = "/menu")
-    public ModelAndView goToMenu(){
-        ModelAndView modelAndView = new ModelAndView("menu");
-        return modelAndView;
+    public ModelAndView getStart(){
+        ModelAndView maw = new ModelAndView("menu");
+        return maw;
     }
 
-
+    @GetMapping(value = "/orders")
+    public ModelAndView getOrders(){
+        ModelAndView maw = new ModelAndView("orders");
+        maw.addObject("orders", orderService.getOrders());
+        return maw;
+    }
 
     @GetMapping(value = "/order/{id}")
     public ModelAndView getOrder(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView("order");
-        modelAndView.addObject("status", new InOrder() );
-        modelAndView.addObject("order", orderService.getOrder(id));
-        return modelAndView;
+        ModelAndView maw = new ModelAndView("order");
+        maw.addObject("status", new InOrder() );
+        maw.addObject("order", orderService.getOrder(id));
+        return maw;
     }
-
 
     @GetMapping(value = "/order/delete/{id}")
     public RedirectView deleteOrder(@PathVariable Long id){
@@ -51,17 +55,11 @@ public class AdminController {
         return maw;
     }
 
-    @GetMapping(value = "/cake/edit")
-    public ModelAndView getCakeForm(){
-        ModelAndView maw = new ModelAndView("cakeEditForm");
-        maw.addObject("cake", new CakeFullInfo());
-        return maw;
-    }
 
     @PostMapping(value = "/cake/edit")
     public RedirectView addCake(CakeFullInfo cake){
         Long id = cakesService.addCake(cake);
-        return new RedirectView("/admin/cake/"+id);
+        return new RedirectView("/admin/cake/"+id.toString());
     }
 
     @GetMapping(value = "cake/{id}")

@@ -7,16 +7,7 @@
 
 <body>
 <h3> Order Status</h3>
-<form action="#" th:action="@{/admin/order/change/{id}(id=${order.id})}" th:object="${status}" method="post">
-    <select id="status" name="status">
-        <option th:each="statusType : ${T(com.glomadovanton.shop.orders.OrderStatus).values()}"
-                th:value="${statusType}"
-                th:text="${statusType}"
-                th:selected="${order.orderStatus == statusType}">
-        </option>
-    </select>
-    <input type="submit" value="Submit" />
-</form>
+
 <h2>User Info</h2>
 <table class="table table-striped" border="1" cellpadding="0" cellspacing="0" width="650" height="18">
     <tr>
@@ -24,8 +15,7 @@
         <th>Number</th>
     </tr>
     <tr>
-        <td th:text="${order.name}"></td>
-        <td th:text="${order.number}"></td>
+        <td th:text="${order.user}"></td>
     </tr>
 </table>
 <h2>Delivery Info</h2>
